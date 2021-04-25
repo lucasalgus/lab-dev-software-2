@@ -10,14 +10,13 @@ public class AgenteDAO {
             Persistence.createEntityManagerFactory("AluguelAutomoveis");
 
 
-    public void add(String cnpj, int usuarioID) {
+    public void add(Agente agente) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            Agente agente = new Agente(null, cnpj, usuarioID);
 
             manager.persist(agente);
             transaction.commit();

@@ -3,6 +3,7 @@ package com.example.aluguelautomoveis.DAO;
 import com.example.aluguelautomoveis.Model.Aluguel;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 public class AluguelDAO {
@@ -10,14 +11,13 @@ public class AluguelDAO {
             Persistence.createEntityManagerFactory("AluguelAutomoveis");
 
 
-    public void add(String contrato, int proprietarioID, int agenteID, int automovelID, int id) {
+    public void add(Aluguel aluguel) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            Aluguel aluguel = new Aluguel(id, contrato, proprietarioID, agenteID, automovelID);
 
             manager.persist(aluguel);
             transaction.commit();
@@ -34,10 +34,10 @@ public class AluguelDAO {
 
     public Aluguel get(int id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        String query = "SELECT cliente FROM Cliente cliente WHERE cliente.id = :clienteID";
+        String query = "SELECT aluguel FROM Aluguel aluguel WHERE aluguel.id = :aluguelID";
 
         TypedQuery<Aluguel> typedQuery = manager.createQuery(query, Aluguel.class);
-        typedQuery.setParameter("clienteID", id);
+        typedQuery.setParameter("aluguelID", id);
 
         Aluguel aluguel = null;
 
@@ -78,7 +78,7 @@ public class AluguelDAO {
         return null;
     }
 
-    public void update(int id, String contrato, int proprietarioID, int agenteID, int automovelID) {
+    public void update(int id, String contrato, boolean ativo, Date dataInicio, Date dataFim, int automovelID, int clienteID, int agenteID, int proprietarioID) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -89,9 +89,13 @@ public class AluguelDAO {
             Aluguel aluguel = manager.find(Aluguel.class, id);
             aluguel.setId(id);
             aluguel.setContrato(contrato);
-            aluguel.setProprietarioID(proprietarioID);
-            aluguel.setAgenteID(agenteID);
+            aluguel.setAtivo(ativo);
+            aluguel.setDataInicio(dataInicio);
+            aluguel.setDataFim(dataFim);
             aluguel.setAutomovelID(automovelID);
+            aluguel.setClienteID(clienteID);
+            aluguel.setAgenteID(agenteID);
+            aluguel.setProprietarioID(proprietarioID);
 
             manager.persist(aluguel);
             transaction.commit();

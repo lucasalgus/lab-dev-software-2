@@ -11,9 +11,6 @@ public class Automovel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "matricula", nullable = false)
-    private int matricula;
-
     @Column(name = "ano", nullable = false)
     private int ano;
 
@@ -26,19 +23,16 @@ public class Automovel {
     @Column(name = "placa", nullable = false)
     private String placa;
 
-
-
     public Automovel() {
 
     }
 
-    public Automovel(Integer id, int matricula, int ano, String marca, String modelo, String placa) {
-        this.id = id;
-        this.matricula = matricula;
-        this.ano = ano;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.placa = placa;
+    public Automovel(Integer id, int ano, String marca, String modelo, String placa) {
+        setId(id);
+        setAno(ano);
+        setMarca(marca);
+        setModelo(modelo);
+        setPlaca(placa);
     }
 
     public int getId() {
@@ -47,14 +41,6 @@ public class Automovel {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(int matricula) {
-        this.matricula = matricula;
     }
 
     public int getAno() {

@@ -1,16 +1,16 @@
 package com.example.aluguelautomoveis.DAO;
 
-import com.example.aluguelautomoveis.Model.Cliente;
+import com.example.aluguelautomoveis.Model.Empregador;
 
 import javax.persistence.*;
 import java.util.List;
 
-public class ClienteDAO {
+public class EmpregadorDAO {
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY =
             Persistence.createEntityManagerFactory("AluguelAutomoveis");
 
 
-    public Cliente add(Cliente cliente) {
+    public void add(Empregador empregador) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -18,10 +18,8 @@ public class ClienteDAO {
             transaction = manager.getTransaction();
             transaction.begin();
 
-            manager.persist(cliente);
+            manager.persist(empregador);
             transaction.commit();
-
-            return cliente;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -31,23 +29,21 @@ public class ClienteDAO {
         } finally {
             manager.close();
         }
-
-        return null;
     }
 
-    public Cliente get(int id) {
+    public Empregador get(int id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        String query = "SELECT cliente FROM Cliente cliente WHERE cliente.id = :clienteID";
+        String query = "SELECT empregador FROM Empregador empregador WHERE empregador.id = :empregadorID";
 
-        TypedQuery<Cliente> typedQuery = manager.createQuery(query, Cliente.class);
-        typedQuery.setParameter("clienteID", id);
+        TypedQuery<Empregador> typedQuery = manager.createQuery(query, Empregador.class);
+        typedQuery.setParameter("empregadorID", id);
 
-        Cliente cliente = null;
+        Empregador empregador = null;
 
         try {
-            cliente = typedQuery.getSingleResult();
+            empregador = typedQuery.getSingleResult();
 
-            return cliente;
+            return empregador;
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
@@ -59,17 +55,17 @@ public class ClienteDAO {
         return null;
     }
 
-    public List<Cliente> getAll() {
+    public List<Empregador> getAll() {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        String query = "SELECT cliente FROM Cliente cliente WHERE cliente.id IS NOT NULL";
+        String query = "SELECT empregador FROM Empregador empregador WHERE empregador.id IS NOT NULL";
 
-        TypedQuery<Cliente> typedQuery = manager.createQuery(query, Cliente.class);
-        List<Cliente> clientes;
+        TypedQuery<Empregador> typedQuery = manager.createQuery(query, Empregador.class);
+        List<Empregador> empregadores;
 
         try {
-            clientes = typedQuery.getResultList();
+            empregadores = typedQuery.getResultList();
 
-            return clientes;
+            return empregadores;
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
@@ -81,7 +77,7 @@ public class ClienteDAO {
         return null;
     }
 
-    public void update(int id, String rg, String cpf, String profissao, int usuarioID) {
+    public void update(int id, String nome, int clienteID) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -89,14 +85,12 @@ public class ClienteDAO {
             transaction = manager.getTransaction();
             transaction.begin();
 
-            Cliente cliente = manager.find(Cliente.class, id);
-            cliente.setId(id);
-            cliente.setRg(rg);
-            cliente.setCpf(cpf);
-            cliente.setProfissao(profissao);
-            cliente.setUsuarioID(usuarioID);
+            Empregador empregador = manager.find(Empregador.class, id);
+            empregador.setId(id);
+            empregador.setNome(nome);
+            empregador.setClienteID(clienteID);
 
-            manager.persist(cliente);
+            manager.persist(empregador);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -116,9 +110,9 @@ public class ClienteDAO {
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            Cliente cliente = manager.find(Cliente.class, id);
+            Empregador empregador = manager.find(Empregador.class, id);
 
-            manager.remove(cliente);
+            manager.remove(empregador);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

@@ -7,17 +7,16 @@ import java.util.List;
 
 public class AutomovelDAO {
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY =
-            Persistence.createEntityManagerFactory("AutomovelAutomoveis");
+            Persistence.createEntityManagerFactory("AluguelAutomoveis");
 
 
-    public void add(int matricula, int ano, String marca, String modelo, String placa) {
+    public void add(Automovel automovel) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            Automovel automovel = new Automovel(null, matricula, ano, marca, modelo, placa);
 
             manager.persist(automovel);
             transaction.commit();
@@ -78,7 +77,7 @@ public class AutomovelDAO {
         return null;
     }
 
-    public void update(int id, int matricula, int ano, String marca, String modelo, String placa) {
+    public void update(int id, int ano, String marca, String modelo, String placa) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -88,7 +87,6 @@ public class AutomovelDAO {
 
             Automovel automovel = manager.find(Automovel.class, id);
             automovel.setId(id);
-            automovel.setMatricula(matricula);
             automovel.setAno(ano);
             automovel.setMarca(marca);
             automovel.setModelo(modelo);

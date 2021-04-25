@@ -10,14 +10,13 @@ public class AdministradorDAO {
             Persistence.createEntityManagerFactory("AluguelAutomoveis");
 
 
-    public void add(int usuarioID) {
+    public void add(Administrador administrador) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            Administrador administrador = new Administrador(null, usuarioID);
 
             manager.persist(administrador);
             transaction.commit();

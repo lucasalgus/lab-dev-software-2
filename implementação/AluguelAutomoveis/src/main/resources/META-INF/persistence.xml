@@ -6,7 +6,11 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.example.aluguelautomoveis.Model.Administrador</class>
         <class>com.example.aluguelautomoveis.Model.Agente</class>
+        <class>com.example.aluguelautomoveis.Model.Aluguel</class>
+        <class>com.example.aluguelautomoveis.Model.Automovel</class>
         <class>com.example.aluguelautomoveis.Model.Cliente</class>
+        <class>com.example.aluguelautomoveis.Model.Empregador</class>
+        <class>com.example.aluguelautomoveis.Model.Rendimento</class>
         <class>com.example.aluguelautomoveis.Model.Usuario</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

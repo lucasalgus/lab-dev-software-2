@@ -10,17 +10,18 @@ public class UsuarioDAO {
             Persistence.createEntityManagerFactory("AluguelAutomoveis");
 
 
-    public void add(String endereco, String nome, String email, String senha) {
+    public Usuario add(Usuario usuario) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            Usuario usuario = new Usuario(null, endereco, nome, email, senha);
 
             manager.persist(usuario);
             transaction.commit();
+
+            return usuario;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -30,6 +31,8 @@ public class UsuarioDAO {
         } finally {
             manager.close();
         }
+
+        return null;
     }
 
     public Usuario get(int id) {
@@ -38,6 +41,31 @@ public class UsuarioDAO {
 
         TypedQuery<Usuario> typedQuery = manager.createQuery(query, Usuario.class);
         typedQuery.setParameter("userID", id);
+
+        Usuario usuario = null;
+
+        try {
+            usuario = typedQuery.getSingleResult();
+
+            return usuario;
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            manager.close();
+        }
+
+        return null;
+    }
+
+    public Usuario getByCredentials(String email, String senha) {
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        String query = "SELECT usuario FROM Usuario usuario WHERE usuario.email = :email AND usuario.senha = :senha";
+
+        TypedQuery<Usuario> typedQuery = manager.createQuery(query, Usuario.class);
+        typedQuery.setParameter("email", email);
+        typedQuery.setParameter("senha", senha);
 
         Usuario usuario = null;
 
